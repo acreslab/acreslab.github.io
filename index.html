@@ -1,8 +1,29 @@
-<!DOCYPE html>
-<html>
-    <head>
-        <title>My First Webpage</title>
-    </head>
-    <body>
-        <h1>Welcome to My First Webpage</h1>
-</html>
+---
+layout: default
+---
+
+<section class="hero">
+    <!-- Animated background, drawn by script.js -->
+    <canvas class="hero-sim" aria-hidden="true"></canvas>
+    <h1><span class="hero-name">ACRES</span> <span class="hero-lab">Lab</span></h1>
+    <p class="hero-tagline">
+        <b>A</b>utonomy, <b>C</b>ontrol, and <b>R</b>obotics for <b>E</b>nvironment and <b>S</b>ustainability
+    </p>
+    <p class="hero-text">
+        We develop <em>robust</em>, <em>autonomous</em> robotic and sensing systems for
+        sustainable agriculture and environmental management. <a href="research.html">Our research</a>
+        spans robot learning and manipulation, 3D reconstruction, heterogeneous robot teams,
+        AI-powered sensing, and autonomous navigation, enabling ground, aerial, and underwater
+        robots to operate reliably in unstructured, real-world environments.
+    </p>
+</section>
+
+<section>
+    <h2>News</h2>
+    <!-- Edit the items in _data/news.yml (newest first) -->
+    <ul class="news">
+        {%- for item in site.data.news limit: site.news_limit %}
+        <li><time>{{ item.date }}</time> <span>{{ item.text | markdownify | remove: '<p>' | remove: '</p>' | strip }}</span></li>
+        {%- endfor %}
+    </ul>
+</section>

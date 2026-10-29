@@ -1,0 +1,14 @@
+# Top navigation — add, remove, or reorder pages here
+- title: Home
+  url: /
+- title: Research
+  url: /research.html
+- title: People
+  url: /people.html
+- title: Publications
+  url: /publications.html
+# Hidden for now; to restore, uncomment and set published: true in resources.html
+# - title: Resources
+#   url: /resources.html
+- title: Join Us
+  url: /join.html
