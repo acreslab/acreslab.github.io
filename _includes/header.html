@@ -1,0 +1,11 @@
+<header class="site-header">
+    <div class="container nav-row">
+        <a href="{{ '/' | relative_url }}" class="brand"><img src="{{ '/images/logo/acres-logo.svg' | relative_url }}" alt="{{ site.title }}" width="185" height="52"></a>
+        <nav class="site-nav">
+            {%- for item in site.data.navigation %}
+            <a href="{{ item.url | relative_url }}"{% if page.url == item.url %} class="active"{% endif %}>{{ item.title }}</a>
+            {%- endfor %}
+        </nav>
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+    </div>
+</header>
