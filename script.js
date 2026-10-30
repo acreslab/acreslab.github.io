@@ -5,6 +5,19 @@ document.querySelectorAll('.year').forEach(el => {
     el.textContent = new Date().getFullYear();
 });
 
+// Light / dark background switch (the choice is remembered in this browser)
+const themeToggle = document.querySelector('.theme-toggle');
+const isDark = () => document.documentElement.getAttribute('data-theme') === 'dark';
+themeToggle.setAttribute('aria-pressed', isDark());
+themeToggle.addEventListener('click', () => {
+    const dark = !isDark();
+    if (dark) document.documentElement.setAttribute('data-theme', 'dark');
+    else document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    themeToggle.setAttribute('aria-pressed', dark);
+    window.dispatchEvent(new Event('themechange'));
+});
+
 // Mobile menu
 const navToggle = document.querySelector('.nav-toggle');
 const nav = document.querySelector('.site-nav');
@@ -22,7 +35,7 @@ onScroll();
 // Fade content in as it scrolls into view
 if (!reduceMotion && 'IntersectionObserver' in window) {
     const items = document.querySelectorAll(
-        '.page-title, .page-intro, main h2, .topic, .pub, .person, .resource, .card, .news li, .contact'
+        '.page-title, .page-intro, main h2, .topic, .pub, .person, .resource, .news li, .contact'
     );
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -48,19 +61,14 @@ if (!reduceMotion && 'IntersectionObserver' in window) {
     });
 }
 
-// Home hero: robot teams cooperating over a faint field map: ground rovers in the crop
-// rows below the text (on wide screens two teams: a crop field and an orchard) and a drone
-// team over the terrain beside the text.
-// Each team moves in a V formation behind its leader, shares messages over comm links, and works through field
-// tasks (crops and trees in the crop rows, water and trees in the terrain area); nearby
-// teams link up. Leaders show AI touches: a sensing cone that "detects" the task with
-// corner brackets, and a fan of sampled candidate trajectories (MPPI-style) with the best
-// one highlighted. Everything stays in the free space beside/below the text.
+// Home hero: robot teams (rovers below the text, drones beside it) drive in V formation to
+// field tasks, with sensing cones, sampled trajectories, and comm links. Never covers the text.
 const canvas = document.querySelector('.hero-sim');
 if (canvas) {
     const ctx = canvas.getContext('2d');
     // one colour for the whole scene, kept faint so it reads as a background texture
-    const INK = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    const readInk = () => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    let INK = readInk();
     const GRID = 40;           // px between grid lines
     const MARGIN = 36;         // px of clearance kept around the text
     const TRAIL = 36;          // trail points kept per rover
@@ -82,6 +90,7 @@ if (canvas) {
     let width = 0;
     let height = 0;
     let tick = 0;
+    let dpr = 1;
     let running = false;
 
     const rand = (a, b) => a + Math.random() * (b - a);
@@ -127,7 +136,7 @@ if (canvas) {
     }
 
     // Static background: map grid, crop rows in the band, terrain contours beside the text
-    function drawBackground(dpr) {
+    function drawBackground() {
         gridLayer = document.createElement('canvas');
         gridLayer.width = width * dpr;
         gridLayer.height = height * dpr;
@@ -185,7 +194,7 @@ if (canvas) {
     }
 
     function resize() {
-        const dpr = window.devicePixelRatio || 1;
+        dpr = window.devicePixelRatio || 1;
         width = canvas.clientWidth;
         height = canvas.clientHeight;
         canvas.width = width * dpr;
@@ -207,7 +216,7 @@ if (canvas) {
         } else {
             zones.push({ kind: 'field', x0: band.x0, x1: band.x1, y0: band.y0 + 12, y1: band.y1 });
         }
-        drawBackground(dpr);
+        drawBackground();
 
         pulses = [];
         packets = [];
@@ -535,6 +544,13 @@ if (canvas) {
             if (running) requestAnimationFrame(frame);
         }).observe(canvas);
     }
+
+    // the theme switch changes the accent colour: recolour the scene
+    window.addEventListener('themechange', () => {
+        INK = readInk();
+        drawBackground();
+        draw();
+    });
 
     let resizeTimer;
     window.addEventListener('resize', () => {

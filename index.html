@@ -10,23 +10,20 @@ layout: default
         <b>A</b>utonomy, <b>C</b>ontrol, and <b>R</b>obotics for <b>E</b>nvironment and <b>S</b>ustainability
     </p>
     <p class="hero-text">
-        Welcome to the ACRES Lab in the
-        <a href="https://bbe.umn.edu/">Department of Bioproducts and Biosystems Engineering</a>
-        at the <a href="https://twin-cities.umn.edu/">University of Minnesota</a>,
-        affiliated with the <a href="https://precisionag.umn.edu/">Precision Agriculture Center</a>
-        and the <a href="https://cse.umn.edu/mnri">Minnesota Robotics Institute</a>.
         We develop <em>robust</em>, <em>autonomous</em> robotic and sensing systems for
-        sustainable and precision agriculture and environmental management.
-        See our <a href="research.html">research</a> and <a href="publications.html">publications</a>.
+        sustainable agriculture and environmental management. <a href="research.html">Our research</a>
+        spans robot learning and manipulation, 3D reconstruction, heterogeneous robot teams,
+        AI-powered sensing, and autonomous navigation, enabling ground, aerial, and underwater
+        robots to operate reliably in unstructured, real-world environments.
     </p>
 </section>
 
 <section>
     <h2>News</h2>
+    <!-- Edit the items in _data/news.yml (newest first) -->
     <ul class="news">
-        <!-- Newest first. TODO: replace with real dates and events -->
-        <li><time datetime="2026">2026</time> Our work on onboard wind estimation and control for multirotor UAVs appears at AIAA SciTech 2026.</li>
-        <li><time datetime="2025">2025</time> Our paper on headland turning in cluttered orchards was published in IEEE Robotics and Automation Letters.</li>
-        <li><time datetime="">Mon YYYY</time> Dr. Peng Wei joined the Department of Bioproducts and Biosystems Engineering at the University of Minnesota and founded the ACRES Lab.</li>
+        {%- for item in site.data.news limit: site.news_limit %}
+        <li><time>{{ item.date }}</time> <span>{{ item.text | markdownify | remove: '<p>' | remove: '</p>' | strip }}</span></li>
+        {%- endfor %}
     </ul>
 </section>

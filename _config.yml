@@ -1,7 +1,10 @@
 # Site settings (GitHub Pages builds this with Jekyll automatically)
 title: ACRES Lab
 url: https://acreslab.github.io   # used for absolute links in link previews
-description: ACRES (Autonomy, Control, and Robotics for Environment and Sustainability) Lab at the University of Minnesota develops robust, autonomous robotic and sensing systems for sustainable and precision agriculture and environmental management.
+description: ACRES (Autonomy, Control, and Robotics for Environment and Sustainability) Lab develops robust, autonomous robotic and sensing systems for sustainable agriculture and environmental management.
+
+# Number of news items shown on the home page (newest first, from _data/news.yml)
+news_limit: 10
 
 # Files that are not part of the published site
 exclude:
