@@ -20,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ '/style.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/style.css' | relative_url }}?v={{ site.time | date: '%s' }}">
     <script>
         // apply a saved dark theme before first paint (no white flash)
         try { if (localStorage.getItem('theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}
@@ -36,6 +36,6 @@
 
     {% include footer.html %}
 
-    <script src="{{ '/script.js' | relative_url }}"></script>
+    <script src="{{ '/script.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
 </body>
 </html>
