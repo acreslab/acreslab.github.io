@@ -1,33 +1,58 @@
 ---
 layout: default
-title: Research
+title: Research Projects
 ---
-<h1 class="page-title">Research</h1>
+<h1 class="page-title">Research Projects</h1>
 <p class="page-intro">
-    We combine machine learning with perception, planning, and control to build robots that work
-    reliably on farms and in natural environments, where terrain, weather, and lighting are hard
-    to predict. Our current research directions:
+    Click a project to see more information.
 </p>
 
-<!-- One box per direction: copy a <section> to add one. A short <p> can go under the <h2>. -->
+{% comment %}
+    Projects and their papers are listed in _data/projects.yml.
+    Projects marked "status: completed" go under Completed Projects.
+{% endcomment %}
+{%- assign current = site.data.projects | where_exp: "p", "p.status != 'completed'" %}
+{%- assign completed = site.data.projects | where: "status", "completed" %}
+{%- for group in (1..2) %}
+{%- if group == 1 %}{% assign list = current %}{% assign heading = "Current Projects" %}
+{%- else %}{% assign list = completed %}{% assign heading = "Completed Projects" %}{% endif %}
+{%- if list.size > 0 %}
+{%- if completed.size > 0 %}
+
+<h2 class="projects-heading">
+    {%- if group == 1 %}<svg class="status-live" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 6a6 6 0 0 1 0 12z" fill="currentColor"/></svg>
+    {%- else %}<svg class="status-done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    {%- endif %}{{ heading }}</h2>
+{%- endif %}
 <div class="topics">
-    <section class="topic" id="learning">
-        <h2>Robot Learning &amp; Manipulation</h2>
-    </section>
-
-    <section class="topic" id="reconstruction">
-        <h2>3D Reconstruction</h2>
-    </section>
-
-    <section class="topic" id="teaming">
-        <h2>Heterogeneous Robot Teams</h2>
-    </section>
-
-    <section class="topic" id="sensing">
-        <h2>AI-Powered Sensing</h2>
-    </section>
-
-    <section class="topic" id="navigation">
-        <h2>Autonomous Navigation</h2>
-    </section>
+    {%- for project in list %}
+    <details class="topic{% if project.status == 'completed' %} topic-completed{% endif %}" id="{{ project.title | slugify }}">
+        <summary>
+            <span class="topic-head">
+                <h2>{{ project.title | escape }}</h2>
+                {%- if project.text %}
+                <span class="topic-text">{{ project.text | escape }}</span>
+                {%- endif %}
+            </span>
+        </summary>
+        <div class="topic-body">
+            {%- if project.papers.size > 0 %}
+            <ul class="pubs topic-pubs">
+                {%- for id in project.papers %}
+                {%- assign p = site.data.publications | where: "id", id | first %}
+                {%- if p %}
+                {% include pub.html pub=p %}
+                {%- else %}
+                <!-- no paper with id "{{ id }}" in _data/publications.yml -->
+                {%- endif %}
+                {%- endfor %}
+            </ul>
+            {%- else %}
+            <p class="topic-empty">Publications coming soon.</p>
+            {%- endif %}
+        </div>
+    </details>
+    {%- endfor %}
 </div>
+{%- endif %}
+{%- endfor %}

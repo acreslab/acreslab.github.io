@@ -1,0 +1,22 @@
+{%- comment -%}
+One publication from _data/publications.yml. Usage: {% include pub.html pub=p %}
+{%- endcomment -%}
+{%- assign p = include.pub -%}
+<li class="pub">
+    {%- if p.image %}
+    {%- assign src = '/images/pubs/' | append: p.image | relative_url %}
+    {%- if p.image contains '.mp4' %}
+    <video class="pub-media" src="{{ src }}" autoplay loop muted playsinline></video>
+    {%- else %}
+    <img class="pub-media" src="{{ src }}" alt="{{ p.title | escape }}" loading="lazy">
+    {%- endif %}
+    {%- endif %}
+    <div class="pub-text">
+        <span class="title">{{ p.title | escape }}</span>
+        <span class="authors">{{ p.authors | escape }}</span>
+        <em class="venue">{{ p.venue | escape }}</em>, {{ p.year }}
+        {%- if p.links %}
+        <span class="pub-links">{% for l in p.links %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }}</a>{% endfor %}</span>
+        {%- endif %}
+    </div>
+</li>

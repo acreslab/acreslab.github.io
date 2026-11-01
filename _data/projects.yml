@@ -1,0 +1,65 @@
+# Research projects, shown on research.html in this order. Click a project to open its papers.
+# - title: also gives the project's link, e.g. "Robot Learning & Manipulation" -> research.html#robot-learning-manipulation
+# - papers: ids from _data/publications.yml, listed in the order they should appear
+# - text (optional): a one-line description shown under the title
+# - status: completed (optional): lists the project under Completed Projects instead of Current Projects
+
+- title: "Robot Learning & Manipulation"
+  papers: []
+
+- title: "Motion Planning for Arbitrarily Shaped Robots"
+  papers:
+    - 2026_arxiv_exact-mppi
+    - 2026_ifac-wc_tractor-trailer
+
+- title: "Sensor-Fusion 3D Mapping and Reconstruction"
+  papers:
+    - 2024_sensors_handheld-mapping
+    - 2023_iros-ws_tree-reconstruction
+
+- title: "Safe and Fault-Tolerant Control"
+  status: completed
+  papers:
+    - 2026_tase_stl-fault-tolerance
+    - 2026_isa_supervisory-recovery
+    - 2026_ijrnc_multi-agent-stl
+
+- title: "UAV Control under Aerodynamic Disturbances"
+  status: completed
+  papers:
+    - 2026_aiaa-scitech_wind-estimation
+    - 2022_ijira_wind-sysid
+    - 2019_ijira_ground-effect
+
+- title: "Localization and Robust Control for Underwater Robots"
+  status: completed
+  papers:
+    - 2026_birob_aquaculture-rov
+    - 2025_agricontrol_rov-net-cage
+
+- title: "Vision-Based UAV Navigation with Imitation Learning"
+  status: completed
+  papers:
+    - 2025_compag_orchard-uav
+    - 2022_jint_riverine-uav
+
+- title: "Safe and Optimal Headland Turning for Agricultural Vehicles"
+  status: completed
+  papers:
+    - 2025_ral_headland-turning
+    - 2024_jfr_headland-planning
+
+- title: "UAV Energy Modeling and Optimization"
+  status: completed
+  papers:
+    - 2025_ast_waypoint-ordering
+    - 2023_jdsmc_energy-optimal-uav
+    - 2022_etran_uav-energy-model
+
+- title: "Temporal Logic Learning for Fault Diagnosis"
+  status: completed
+  papers:
+    - 2021_tase_fault-detection
+    - 2020_tii_fault-diagnosis
+
+

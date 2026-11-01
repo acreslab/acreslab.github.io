@@ -11,7 +11,8 @@
     --header-bg: rgba(251, 251, 252, 0.85);
     --shadow: rgba(20, 34, 60, 0.1);
     --link-underline: rgba(15, 118, 110, 0.35);
-    --media-bg: #fff;           /* card behind paper figures */
+    --topic-bar: linear-gradient(180deg, #1e3a8a, #0f766e);   /* research cards */
+    --topic-bar-done: linear-gradient(180deg, #94a3b8, #cbd5e1);   /* completed projects */
     color-scheme: light;
 
     --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -34,7 +35,8 @@
     --header-bg: rgba(8, 13, 12, 0.8);
     --shadow: rgba(0, 0, 0, 0.45);
     --link-underline: rgba(45, 212, 191, 0.4);
-    --media-bg: #f4f6f5;        /* keep paper figures on a light card */
+    --topic-bar: linear-gradient(180deg, #7dd3fc, #2dd4bf);
+    --topic-bar-done: linear-gradient(180deg, #64748b, #334155);
     color-scheme: dark;
 }
 
@@ -106,15 +108,6 @@ main {
     color: var(--muted);
     max-width: 720px;
     margin-bottom: 8px;
-}
-
-/* Grey box shown until a real image/video is added */
-.placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-    font-size: 0.9rem;
 }
 
 /* ===== Header / Nav ===== */
@@ -317,6 +310,19 @@ main {
     font-size: 1.08rem;
 }
 
+.hero-text p {
+    margin: 0 0 12px;
+}
+
+.hero-text ul {
+    margin: 0 0 12px;
+    padding-left: 1.3em;
+}
+
+.hero-text li::marker {
+    color: var(--accent);
+}
+
 /* links in the intro and news read as text with a faint teal underline; teal on hover */
 .hero-text a,
 .news a {
@@ -331,15 +337,6 @@ main {
 .news a:hover {
     color: var(--accent);
     text-decoration-color: currentColor;
-}
-
-/* ===== Media slots (resources page) ===== */
-.tile-media {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    border-radius: var(--radius);
-    background: var(--placeholder);
 }
 
 /* ===== News ===== */
@@ -366,6 +363,27 @@ main {
 }
 
 /* ===== Research ===== */
+/* "Current Projects" / "Completed Projects" headings (shown once any project is completed) */
+.projects-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 48px;
+}
+
+/* in progress: half-filled teal circle */
+.status-live {
+    flex: none;
+    color: var(--accent);
+}
+
+/* finished: grey check mark */
+.status-done {
+    flex: none;
+    color: var(--muted);
+}
+
+/* project cards that open (native <details>) to list their papers; gradient bar on the left */
 .topics {
     display: grid;
     gap: 16px;
@@ -373,11 +391,67 @@ main {
 }
 
 .topic {
-    padding: 22px 26px;
+    position: relative;
+    overflow: hidden;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-left: 4px solid var(--accent);
     border-radius: var(--radius);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.topic::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: var(--topic-bar);
+    transition: width 0.35s ease;
+}
+
+.topic:not([open]):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px var(--shadow);
+    background-color: color-mix(in srgb, var(--accent) 4%, var(--surface));
+}
+
+.topic:hover::before,
+.topic[open]::before {
+    width: 8px;
+}
+
+.topic summary {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 28px 24px 32px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.topic summary::-webkit-details-marker {
+    display: none;
+}
+
+/* chevron: points down when closed, up when open */
+.topic summary::after {
+    content: "";
+    flex: none;
+    width: 9px;
+    height: 9px;
+    margin: -4px 4px 0 0;
+    border-right: 2px solid var(--muted);
+    border-bottom: 2px solid var(--muted);
+    transform: rotate(45deg);
+    transition: transform 0.3s ease, margin 0.3s ease;
+}
+
+.topic[open] summary::after {
+    margin-top: 4px;
+    transform: rotate(225deg);
+}
+
+.topic-head {
+    flex: 1;
 }
 
 .topic h2 {
@@ -385,9 +459,51 @@ main {
     font-size: 1.3rem;
 }
 
-.topic p {
-    margin: 8px 0 0;
+/* completed projects: grey bar and softer title */
+.topic-completed::before {
+    background: var(--topic-bar-done);
+}
+
+.topic-completed h2 {
     color: var(--muted);
+}
+
+.topic-completed:not([open]):hover {
+    background-color: var(--surface);
+}
+
+.topic-text {
+    display: block;
+    margin-top: 6px;
+    color: var(--muted);
+}
+
+.topic-body {
+    margin: 0 28px 0 32px;
+    border-top: 1px solid var(--border);
+}
+
+.topic-empty {
+    margin: 0;
+    padding: 18px 0 22px;
+    color: var(--muted);
+}
+
+/* smooth open/close where the browser supports animating <details> */
+@supports (interpolate-size: allow-keywords) {
+    .topic {
+        interpolate-size: allow-keywords;
+    }
+
+    .topic::details-content {
+        height: 0;
+        overflow: hidden;
+        transition: height 0.35s ease, content-visibility 0.35s allow-discrete;
+    }
+
+    .topic[open]::details-content {
+        height: auto;
+    }
 }
 
 /* ===== People: one row per person, photo left ===== */
@@ -522,6 +638,11 @@ main {
     border-bottom: 1px solid var(--border);
 }
 
+/* papers listed inside a research project */
+.topic-pubs .pub:last-child {
+    border-bottom: none;
+}
+
 /* Text-only entry when there is no figure */
 .pub:not(:has(.pub-media)) {
     grid-template-columns: 1fr;
@@ -529,11 +650,10 @@ main {
 
 .pub-media {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    height: auto;
+    max-height: 195px;        /* at most a 4:3 slot; wide figures stay short */
     object-fit: contain;      /* show the whole figure */
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--media-bg);
+    object-position: top;     /* line its top up with the paper title */
 }
 
 .pubs .title {
@@ -573,74 +693,18 @@ main {
     text-decoration: none;
 }
 
-/* ===== Resources ===== */
-.resource-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: 24px;
-    margin-top: 24px;
-}
-
-.resource {
-    overflow: hidden;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.resource:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px var(--shadow);
-}
-
-.resource .tile-media {
-    border-radius: 0;
-}
-
-.resource-body {
-    padding: 18px 20px 20px;
-}
-
-.resource-body h3 {
-    margin-bottom: 4px;
-}
-
-.resource-body p {
-    color: var(--muted);
-    margin: 0 0 10px;
-    font-size: 0.95rem;
-}
-
-.specs {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 0.88rem;
-}
-
-.specs li {
-    padding: 4px 0;
+/* ===== Join ===== */
+/* a thin rule separates Contact from the intro above */
+#contact {
+    padding-top: 40px;
     border-top: 1px solid var(--border);
 }
 
-.specs strong {
-    font-weight: 600;
-    margin-right: 6px;
-}
-
-/* ===== Join ===== */
-/* contact details in a card, styled like the research topic boxes */
 .contact {
     display: grid;
     grid-template-columns: 1fr 1.4fr;
     gap: 32px;
     align-items: start;
-    padding: 24px 26px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--accent);
-    border-radius: var(--radius);
 }
 
 .contact p {

@@ -37,7 +37,7 @@ title: People
 <section>
     <h2>Graduate Students</h2>
     <div class="people-list">
-        {% raw %}<!--
+        {% comment %}
             Copy a <div class="person"> block for each member, sorted by last name.
             Photo: 4:5 portrait JPG (about 600x750) in images/people/, named first-last.jpg,
             wrapped as <div class="avatar"><img src="..." alt="Name"></div>.
@@ -48,13 +48,13 @@ title: People
                 </div>
                 <div class="detail">
                     <span class="detail-label">Research Area</span>
-                    <a href="research.html#learning">Robot Learning &amp; Manipulation</a>
+                    Robot Learning &amp; Manipulation
                 </div>
             Links (optional), placed last; icons: homepage, linkedin, scholar, github
                 <p class="icon-links">
                     <a href="..." target="_blank" rel="noopener" title="Homepage" aria-label="Homepage">{% include icon.html name="homepage" %}</a>
                 </p>
-        -->{% endraw %}
+        {% endcomment %}
         <div class="person">
             <div class="avatar"><img src="images/people/aditya-dilip-bidwai.jpg" alt="Aditya Dilip Bidwai"></div>
             <div class="person-info">
@@ -68,7 +68,7 @@ title: People
                 </div>
                 <div class="detail">
                     <span class="detail-label">Research Area</span>
-                    <a href="research.html#learning">Robot Learning &amp; Manipulation</a>
+                    Robot Learning &amp; Manipulation
                 </div>
                 <p class="icon-links">
                     <a href="https://adbidwai.github.io" target="_blank" rel="noopener" title="Homepage" aria-label="Homepage">{% include icon.html name="homepage" %}</a>
@@ -90,10 +90,10 @@ title: People
                 </div>
                 <div class="detail">
                     <span class="detail-label">Research Area</span>
-                    <a href="research.html#learning">Robot Learning &amp; Manipulation</a>
+                    Robot Learning &amp; Manipulation
                 </div>
                 <p class="icon-links">
-                    <a href="https://www.linkedin.com/in/ljmk" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">{% include icon.html name="linkedin" %}</a>
+                    <a href="https://www.linkedin.com/in/lemi-kouassi-75680a346/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">{% include icon.html name="linkedin" %}</a>
                 </p>
             </div>
         </div>

@@ -32,10 +32,18 @@ const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 4);
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
+// Open a research project when the URL points to it (e.g. research.html#aquaculture-robotics)
+const openLinkedProject = () => {
+    const el = location.hash && document.getElementById(location.hash.slice(1));
+    if (el && el.tagName === 'DETAILS') el.open = true;
+};
+openLinkedProject();
+window.addEventListener('hashchange', openLinkedProject);
+
 // Fade content in as it scrolls into view
 if (!reduceMotion && 'IntersectionObserver' in window) {
     const items = document.querySelectorAll(
-        '.page-title, .page-intro, main h2, .topic, .pub, .person, .resource, .news li, .contact'
+        '.page-title, .page-intro, main h2, .topic, .pub, .person, .news li, .contact'
     );
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -101,7 +109,7 @@ if (canvas) {
         const c = canvas.getBoundingClientRect();
         let right = 0;
         let bottom = 0;
-        canvas.parentElement.querySelectorAll('h1, p').forEach((el) => {
+        [...canvas.parentElement.children].filter((el) => el !== canvas).forEach((el) => {
             const r = el.getBoundingClientRect();
             right = Math.max(right, r.right - c.left);
             bottom = Math.max(bottom, r.bottom - c.top);
