@@ -3,7 +3,7 @@ layout: default
 ---
 
 <section class="hero">
-    <!-- Animated background, drawn by script.js -->
+    {% comment %} Animated background, drawn by script.js {% endcomment %}
     <canvas class="hero-sim" aria-hidden="true"></canvas>
     <h1><span class="hero-name">ACRES</span> <span class="hero-lab">Lab</span></h1>
     <p class="hero-tagline">
@@ -30,7 +30,7 @@ layout: default
 
 <section>
     <h2>News</h2>
-    <!-- Edit the items in _data/news.yml (newest first) -->
+    {% comment %} Edit the items in _data/news.yml (newest first) {% endcomment %}
     <ul class="news">
         {%- for item in site.data.news limit: site.news_limit %}
         <li><time>{{ item.date }}</time> <span>{{ item.text | markdownify | remove: '<p>' | remove: '</p>' | strip }}</span></li>
